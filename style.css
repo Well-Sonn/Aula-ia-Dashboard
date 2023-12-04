@@ -1,0 +1,18 @@
+/* style.css */
+
+.header {
+    background-color: #87CEEB;
+    padding: 20px;
+    color: white;
+    text-align: center;
+    font-size: 24px;
+    border-radius: 10px;
+    margin-bottom: 10px;
+}
+
+.separator {
+    height: 5px;
+    background-color: #87CEEB;
+    margin-bottom: 20px;
+    margin-top: 20px;
+}
