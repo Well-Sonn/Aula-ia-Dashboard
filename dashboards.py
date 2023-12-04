@@ -1,38 +1,19 @@
 import streamlit as st
 import pandas as pd
 import plotly.express as px
+import pathlib
+
+css_code = pathlib.Path("style.css").read_text()
 
 df = pd.read_csv("BancodeDadosA3_2023.csv", sep=",", decimal=",")
 
 st.set_page_config(layout='wide')
-
-header_style = """
-    <style>
-        .header {
-            background-color: #87CEEB;
-            padding: 20px;
-            color: white;
-            text-align: center;
-            font-size: 24px;
-            border-radius: 10px;
-            margin-bottom: 10px;
-        }
-        .separator {
-            height: 5px;
-            background-color: #87CEEB;
-            margin-bottom: 20px;
-            margin-top: 20px; /* Adiciona espaço antes da linha */
-        }
-    </style>
-"""
+st.markdown(f'<style>{css_code}</style>', unsafe_allow_html=True)
 
 st.markdown('<div class="header">Análise de Diagnósticos </div>', unsafe_allow_html=True)
 
-st.markdown(header_style, unsafe_allow_html=True)
-
 col2, col3, col1 = st.columns(3)
 
-# Gráfico de barras
 col1.markdown("**Quantidade de pacientes por diagnóstico**")
 counts = df['Diagnóstico'].value_counts()
 df_counts = pd.DataFrame({'Diagnóstico': counts.index, 'Quantidade': counts.values})
@@ -44,7 +25,6 @@ st.markdown('<div class="separator"></div>', unsafe_allow_html=True)
 st.write("\n")
 st.write("\n")
 
-# Gráfico de dispersão
 col2.markdown("**Distribuição das métricas por diagnóstico**")
 col_parameter = col2.selectbox("Escolha a coluna para análise:", df.columns)
 fig_scatter = px.scatter(df, x=col_parameter, y='Diagnóstico', color='Diagnóstico' )
@@ -58,14 +38,12 @@ col3.plotly_chart(fig_hist, use_container_width=True)
 
 col4, graf = st.columns([1, 1.5])
 
-# Gráfico de dispersão 2
+# Gráfico de dispersão 
 col4.markdown("**Relação entre Covariáveis (Gráfico de dispersão)**")
 x_variable = col4.selectbox("Escolha a variável para o eixo X:", df.columns, key='x_variable')
 y_variable = col4.selectbox("Escolha a variável para o eixo Y:", df.columns, key='y_variable')
 fig_scatter_2 = px.scatter(data_frame=df, x=x_variable, y=y_variable)
 col4.plotly_chart(fig_scatter_2, use_container_width=True)
-
-st.markdown('<div class="separator"></div>', unsafe_allow_html=True)
 
 graf.markdown("**Tabela de Dados**")
 diagnosis_options = df['Diagnóstico'].unique()
